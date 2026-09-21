@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered College Assistant for academic, fees, attendance, and regulation queries.">
+    <title>College AI Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Liquid Ambient Lighting Layers -->
+    <div class="liquid-bg-layer" aria-hidden="true">
+        <div class="ambient-glow glow-top"></div>
+        <div class="ambient-glow glow-bottom"></div>
+        <div class="ambient-glow glow-center"></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TWO-STEP ONBOARDING & PERSONALIZATION MODAL                  -->
+    <!-- ============================================================ -->
+    <div class="programme-overlay" id="programmeOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="programme-modal">
+            <div class="glass-reflection" aria-hidden="true"></div>
+
+            <!-- STEP 1: TOPIC EXPLORATION -->
+            <div class="onboarding-step" id="onboardingStep1">
+                <div class="modal-header">
+                    <div class="ai-logo large-logo">
+                        <div class="logo-orb-glow"></div>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="eyebrow">WELCOME TO COLLEGE AI</div>
+                    <h1 id="modalTitle">What would you like<br><span>to explore?</span></h1>
+                    <p>Choose the topics you care about so we can tailor your College AI experience. You can change these preferences anytime.</p>
+                </div>
+
+                <div class="topics-grid" role="group" aria-label="Select interests">
+                    <button class="topic-card selected" data-topic="academic" type="button" aria-pressed="true">
+                        <div class="topic-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="topic-details">
+                            <strong>Academics</strong>
+                            <span>Attendance, exams, grading &amp; academic rules</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="topic-card selected" data-topic="fee" type="button" aria-pressed="true">
+                        <div class="topic-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="topic-details">
+                            <strong>Fees</strong>
+                            <span>Tuition, payments, refunds &amp; deadlines</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="topic-card selected" data-topic="courses" type="button" aria-pressed="true">
+                        <div class="topic-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                        </div>
+                        <div class="topic-details">
+                            <strong>Courses</strong>
+                            <span>Subjects, credits &amp; programme requirements</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="topic-card" data-topic="exams" type="button" aria-pressed="false">
+                        <div class="topic-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                        </div>
+                        <div class="topic-details">
+                            <strong>Examinations</strong>
+                            <span>Exam rules, eligibility &amp; assessment</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="topic-card" data-topic="general" type="button" aria-pressed="false">
+                        <div class="topic-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="topic-details">
+                            <strong>General</strong>
+                            <span>Ask anything about the college regulations</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="step-indicator" aria-label="Step 1 of 2">
+                        <span class="dot active"></span>
+                        <span class="line"></span>
+                        <span class="dot"></span>
+                    </div>
+
+                    <button id="onboardingStep1Btn" class="continue-button" type="button">
+                        <span>Continue</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: PROGRAMME SELECTION -->
+            <div class="onboarding-step hidden" id="onboardingStep2">
+                <div class="modal-header">
+                    <div class="eyebrow">ACADEMIC PROGRAMME</div>
+                    <h2>Which programme<br><span>are you studying?</span></h2>
+                    <p>Select your enrolled programme for tailored course regulations and accurate fee schedules.</p>
+                </div>
+
+                <div class="programme-options" role="radiogroup" aria-label="Select Programme">
+                    <button class="programme-card" data-programme="BCA" type="button" role="radio" aria-checked="false">
+                        <div class="programme-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <div class="programme-details">
+                            <strong>BCA</strong>
+                            <span>Bachelor of Computer Applications</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="programme-card" data-programme="BBA" type="button" role="radio" aria-checked="false">
+                        <div class="programme-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                <line x1="12" y1="11" x2="12" y2="17"></line>
+                                <line x1="9" y1="14" x2="15" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="programme-details">
+                            <strong>BBA</strong>
+                            <span>Bachelor of Business Administration</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <button class="programme-card" data-programme="B.com (H)" type="button" role="radio" aria-checked="false">
+                        <div class="programme-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div class="programme-details">
+                            <strong>B.Com (H)</strong>
+                            <span>Bachelor of Commerce (Honours)</span>
+                        </div>
+                        <div class="check" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="modal-footer step2-footer">
+                    <button id="onboardingBackBtn" class="back-button" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Back</span>
+                    </button>
+
+                    <div class="step-indicator" aria-label="Step 2 of 2">
+                        <span class="dot active"></span>
+                        <span class="line active"></span>
+                        <span class="dot active"></span>
+                    </div>
+
+                    <button id="continueButton" class="continue-button" type="button" disabled>
+                        <span>Start Chat</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MAIN APPLICATION LAYOUT                                      -->
+    <!-- ============================================================ -->
+    <div class="app">
+
+        <!-- ========================= -->
+        <!-- SIDEBAR (FROSTED GLASS)   -->
+        <!-- ========================= -->
+        <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+            <div class="sidebar-top">
+                <div class="brand">
+                    <div class="ai-logo">
+                        <div class="logo-orb-glow"></div>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <strong>College AI</strong>
+                        <span>Academic Assistant</span>
+                    </div>
+                </div>
+
+                <button class="new-chat" id="newChatButton" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>New Chat</span>
+                </button>
+
+                <div class="sidebar-section">
+                    <span class="section-label">ASSISTANT</span>
+                    <button class="nav-item active" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <span>Chat</span>
+                    </button>
+                    <button class="nav-item" data-suggestion="What are the academic requirements and attendance rules?" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <span>Academic</span>
+                    </button>
+                    <button class="nav-item" data-suggestion="What is the college fee structure and payment schedule?" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        <span>Fees</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-bottom">
+                <div class="programme-profile">
+                    <span class="section-label">PROGRAMME</span>
+                    <div class="programme-mini">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                        </div>
+                        <div class="programme-mini-text">
+                            <strong id="sidebarProgramme">BCA</strong>
+                            <span id="sidebarProgrammeDesc">Enrolled Student</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-actions-group">
+                    <button class="sidebar-action" id="changeProgramme" type="button">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <span>Change Preferences</span>
+                    </button>
+
+                    <button class="sidebar-action" id="themeButton" type="button">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <span>Toggle Theme</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ========================= -->
+        <!-- MAIN CONTENT AREA         -->
+        <!-- ========================= -->
+        <main class="main">
+
+            <!-- TOP NAVIGATION BAR (TRANSLUCENT FROST) -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="topbar-heading">
+                        <h2>College AI Assistant</h2>
+                        <p>Academic &amp; fee information assistant</p>
+                    </div>
+                </div>
+
+                <div class="top-actions">
+                    <div class="online-status">
+                        <span class="pulse-dot"></span>
+                        <span>Online</span>
+                    </div>
+
+                    <button class="icon-button" id="clearChat" type="button" title="Clear chat history" aria-label="Clear chat">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+
+                    <button class="icon-button" id="topTheme" type="button" title="Toggle light/dark theme" aria-label="Toggle theme">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- CHAT AREA CONTAINER (DEDICATED CENTERED REGION) -->
+            <section class="chat-area" id="chatArea" aria-label="Chat Conversation">
+                <div class="chat-container">
+
+                    <!-- WELCOME STATE -->
+                    <div class="welcome" id="welcome">
+                        <div class="hero-orb" aria-hidden="true">
+                            <div class="orb-outer-glow"></div>
+                            <div class="orb-glass-sphere">
+                                <div class="orb-liquid-gradient"></div>
+                                <div class="orb-specular"></div>
+                                <div class="orb-core">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="eyebrow">COLLEGE AI</div>
+                        <h1>How can I help<br><span>you today?</span></h1>
+                        <p>Ask questions about academics, fees, attendance, examinations, credits and college regulations.</p>
+
+                        <div class="suggestions">
+                            <button class="suggestion" data-question="What is the attendance requirement?" type="button">
+                                <div class="suggestion-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="suggestion-content">
+                                    <strong>Academic</strong>
+                                    <span>Attendance, exams &amp; grading</span>
+                                </div>
+                                <span class="arrow" aria-hidden="true">→</span>
+                            </button>
+
+                            <button class="suggestion" data-question="What are the tuition fees and payment dates?" type="button">
+                                <div class="suggestion-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                </div>
+                                <div class="suggestion-content">
+                                    <strong>Fees</strong>
+                                    <span>Tuition, payments &amp; refunds</span>
+                                </div>
+                                <span class="arrow" aria-hidden="true">→</span>
+                            </button>
+
+                            <button class="suggestion" data-question="What are the credit and course requirements for my programme?" type="button">
+                                <div class="suggestion-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                    </svg>
+                                </div>
+                                <div class="suggestion-content">
+                                    <strong>Courses</strong>
+                                    <span>Credits &amp; programme requirements</span>
+                                </div>
+                                <span class="arrow" aria-hidden="true">→</span>
+                            </button>
+
+                            <button class="suggestion" data-question="Hello! What services and college rules can you help me with?" type="button">
+                                <div class="suggestion-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="suggestion-content">
+                                    <strong>General</strong>
+                                    <span>Ask the assistant anything</span>
+                                </div>
+                                <span class="arrow" aria-hidden="true">→</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MESSAGES CONTAINER -->
+                    <div class="messages" id="messages"></div>
+
+                    <!-- TYPING INDICATOR -->
+                    <div class="typing-container" id="typingContainer">
+                        <div class="assistant-avatar" aria-hidden="true">
+                            <div class="avatar-glow"></div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <div class="typing-card">
+                            <span>AI is thinking</span>
+                            <div class="typing-dots">
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- FLOATING CHAT COMPOSER (PERFECTLY ALIGNED) -->
+            <footer class="input-area">
+                <div class="chat-container composer-chat-container">
+                    <div class="input-wrapper">
+                        <div class="composer-specular" aria-hidden="true"></div>
+                        <textarea
+                            id="messageInput"
+                            placeholder="Ask about academics, fees, attendance..."
+                            rows="1"
+                            aria-label="Message input"
+                        ></textarea>
+
+                        <div class="input-bottom">
+                            <div class="input-hint">
+                                <span class="sparkle">✦</span>
+                                <span>Powered by College AI RAG Engine</span>
+                            </div>
+
+                            <button id="sendButton" class="send-button" type="button" title="Send message" aria-label="Send message">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                                    <polyline points="5 12 12 5 19 12"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="disclaimer">
+                        AI responses are based on available college documents. Verify important information with official college sources.
+                    </p>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
