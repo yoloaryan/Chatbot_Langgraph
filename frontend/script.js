@@ -3,9 +3,9 @@
 // ============================================================
 
 const API_URL =
-    window.location.protocol.startsWith("http")
-        ? ""
-        : "http://localhost:8900";
+    localStorage.getItem("collegeApiUrl") ||
+    window.COLLEGE_API_URL ||
+    (window.location.protocol.startsWith("http") && window.location.port ? "" : "http://localhost:8900");
 
 
 // ============================================================
